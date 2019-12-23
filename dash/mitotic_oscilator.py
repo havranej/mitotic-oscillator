@@ -1,21 +1,22 @@
 
 import numpy as np
 
-v_i = 0.025
-v_d = 0.25
-K_d = 0.02
-k_d = 0.01
-K_c = 0.5
-V_M1 = 3
-K_1 = 0.005
-V_2 = 1.5
-K_2 = 0.005
-V_M3 = 1
-K_3 = 0.005
-V_4 = 0.5
-K_4 = 0.005
+def mitotic_oscilator(t, x, params = {}):
 
-def mitotic_oscilator(t, x):
+    v_i = params.get("v_i", 0.025)
+    v_d = params.get("v_d", 0.25)
+    K_d = params.get("K_d", 0.02)
+    k_d = params.get("k_d", 0.01)
+    K_c = params.get("K_c", 0.5)
+    V_M1 = params.get("V_M1", 3)
+    K_1 = params.get("K_1", 0.005)
+    V_2 = params.get("V_2", 1.5)
+    K_2 = params.get("K_2", 0.005)
+    V_M3 = params.get("V_M3", 1)
+    K_3 = params.get("K_3", 0.005)
+    V_4 = params.get("V_4", 0.5)
+    K_4 = params.get("K_4", 0.005)
+
     C = x[0]
     M = x[1]
     X = x[2]

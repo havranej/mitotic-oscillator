@@ -16,15 +16,14 @@ class Simulation():
         self.logging_frequency = logging_frequency
         self.log_counter = 0
         
-    def step(self):
-        self.state = self.method(self.state, mitotic_oscilator, self.h)
+    def step(self, params = {}):
+        self.state = self.method(self.state, mitotic_oscilator, self.h, params)
         
         self.log_counter += 1
         
         if self.log_counter == self.logging_frequency:
             self.add_current_state_to_history()
             self.log_counter = 0
-            print('Step!')
             
         
     def add_current_state_to_history(self):

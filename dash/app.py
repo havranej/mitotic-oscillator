@@ -2,17 +2,13 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
 
 import numpy as np
 
 from simulation import Simulation
 from methods import rk4
-
-sim = Simulation(initial_state = np.array([0, 0.5 , 0.01, 0.01]), h = 0.01, logging_frequency = 100, method = rk4)
-for i in range(10000):
-    sim.step()
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -28,7 +24,14 @@ app.layout = html.Div(children = [
         step = 0.01,
         value = 0.5
     ),
-    dcc.Graph(id = 'example-graph', animate = True),
+    dcc.Slider(
+        id = 'v_i',
+        min = 0,
+        max = 1,
+        step = 0.001,
+        value = 0.025
+    ),
+    dcc.Graph(id = 'time-graph', animate = True),
     dcc.Interval(
         id='graph-update',
         interval=0.6*1000,
@@ -41,14 +44,15 @@ app.layout = html.Div(children = [
 sim = Simulation(initial_state = np.array([0, 0.01 , 0.01, 0.01]), h = 0.01, logging_frequency = 100, method = rk4)
 
 @app.callback(
-        Output(component_id = 'example-graph', component_property = 'figure'),
-        [Input(component_id = 'graph-update', component_property = 'n_intervals')]
+        Output(component_id = 'time-graph', component_property = 'figure'),
+        [Input(component_id = 'graph-update', component_property = 'n_intervals')],
+        state = [State('v_i', 'value')]
 )
-def update_plot(interval):
+def update_plot(n_intervals, v_i):
     global sim
 
     for i in range(500):
-        sim.step()
+        sim.step({'v_i': v_i})
     
     LAST_N = 100
 
