@@ -6,43 +6,22 @@ from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
 
 import numpy as np
+import pandas as pd
 
 from simulation import Simulation
 from methods import rk4
 
-parameters_list = [
-    'v_i',       
-    'v_d',       
-    'K_d',
-    'k_d',
-    'K_c',
-    'V_M1',
-    'K_1',
-    'V_2',
-    'K_2',
-    'V_M3',
-    'K_3',
-    'V_4',
-    'K_4'
-    ]
+parameters_table = pd.read_csv('parameters.csv')
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets = external_stylesheets)
 
-sliders_list = [dcc.Slider(id = parameter, min = 0, max = 1, step = 0.01, value = 0.05) for parameter in parameters_list]
-
+sliders_list = [dcc.Slider(id = row['id'], min = row['min'], max = row['max'], step = row['step'], value = row['default']) for index, row in parameters_table.iterrows()]
 
 app.layout = html.Div(children = [
     html.H1(children = 'Mitotic oscilator'),
     html.Div(children = 'A mitotic oscilator demo'),
-    dcc.Slider(
-        id = 'C_init',
-        min = 0,
-        max = 1,
-        step = 0.01,
-        value = 0.5
-    ),
     html.Div(children = sliders_list),
     dcc.Graph(id = 'time-graph', animate = True),
     dcc.Interval(
@@ -52,7 +31,7 @@ app.layout = html.Div(children = [
     ),
 ])
 
-input_list = [Input(component_id = parameter, component_property = 'value') for parameter in parameters_list]
+input_list = [Input(component_id = parameter, component_property = 'value') for parameter in parameters_table['id']]
 
 @app.callback(
         Output(component_id = 'time-graph', component_property = 'figure'),
@@ -61,7 +40,7 @@ input_list = [Input(component_id = parameter, component_property = 'value') for 
 )
 def update_plot(*param_values):
     sim = Simulation(initial_state = np.array([0, 0.01 , 0.01, 0.01]), h = 0.01, logging_frequency = 100, method = rk4)
-    parameters_dict = {key: parameter for key, parameter in zip(parameters_list, param_values)}
+    parameters_dict = {key: parameter for key, parameter in zip(parameters_table['id'], param_values)}
 
     for i in range(10000):
         sim.step(parameters_dict)
@@ -74,6 +53,8 @@ def update_plot(*param_values):
                 {'x': t, 'y': sim.get_history('M'), 'name': 'M'},
                 {'x': t, 'y': sim.get_history('X'), 'name': 'X'},
             ],
+            # 'layout': go.Layout(yaxis=dict(range = [0,1]))
+            
         }
 
 
