@@ -18,7 +18,8 @@ class Simulation():
         
     def step(self, params = {}):
         self.state = self.method(self.state, mitotic_oscilator, self.h, params)
-        
+        self.state = np.maximum(self.state, 0)
+
         self.log_counter += 1
         
         if self.log_counter == self.logging_frequency:
