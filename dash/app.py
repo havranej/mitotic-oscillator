@@ -18,20 +18,27 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets = external_stylesheets)
 
 def generate_control_elements(parameters_table):
-    sliders_list = []
-    
-    for index, row in parameters_table.iterrows():
-        sliders_list.append(dcc.Markdown(dangerously_allow_html = True,
-                                            children = row['label']))
-        sliders_list.append(dcc.Slider(id = row['id'], min = row['min'], max = row['max'], step = row['step'], value = row['default']))
+    master_list = []
 
-    return sliders_list
+    for group in parameters_table.group.unique():
+        group_list = []
+        group_list.append(html.Summary(children = group))
 
+        param_table_selection = parameters_table[parameters_table.group == group]
+
+        for index, row in param_table_selection.iterrows():
+            group_list.append(dcc.Markdown(dangerously_allow_html = True,
+                                                children = row['label']))
+            group_list.append(dcc.Slider(id = row['id'], min = row['min'], max = row['max'], step = row['step'], value = row['default']))
+
+        master_list.append(html.Details(children = group_list))
+
+    return master_list
 
 app.layout = html.Div(children = [
     html.H1(children = 'Mitotic oscilator'),
     html.Div(children = 'A mitotic oscilator demo'),
-    html.Div(children = generate_control_elements(parameters_table)),
+    html.Div(children = generate_control_elements(parameters_table), style = {}),
     dcc.Graph(id = 'time-graph', animate = True),
     dcc.Interval(
         id='graph-update',
