@@ -17,12 +17,21 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets = external_stylesheets)
 
-sliders_list = [dcc.Slider(id = row['id'], min = row['min'], max = row['max'], step = row['step'], value = row['default']) for index, row in parameters_table.iterrows()]
+def generate_control_elements(parameters_table):
+    sliders_list = []
+    
+    for index, row in parameters_table.iterrows():
+        sliders_list.append(dcc.Markdown(dangerously_allow_html = True,
+                                            children = row['label']))
+        sliders_list.append(dcc.Slider(id = row['id'], min = row['min'], max = row['max'], step = row['step'], value = row['default']))
+
+    return sliders_list
+
 
 app.layout = html.Div(children = [
     html.H1(children = 'Mitotic oscilator'),
     html.Div(children = 'A mitotic oscilator demo'),
-    html.Div(children = sliders_list),
+    html.Div(children = generate_control_elements(parameters_table)),
     dcc.Graph(id = 'time-graph', animate = True),
     dcc.Interval(
         id='graph-update',
