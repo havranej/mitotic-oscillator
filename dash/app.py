@@ -29,7 +29,13 @@ def generate_control_elements(parameters_table):
         for index, row in param_table_selection.iterrows():
             group_list.append(dcc.Markdown(dangerously_allow_html = True,
                                                 children = row['label']))
-            group_list.append(dcc.Slider(id = row['id'], min = row['min'], max = row['max'], step = row['step'], value = row['default']))
+            marks_dict = {i: str(round(i, ndigits = 4)) for i in np.linspace(row['min'], row['max'], num = 5)}
+            group_list.append(dcc.Slider(id = row['id'],
+                                        min = row['min'],
+                                        max = row['max'],
+                                        step = row['step'],
+                                        value = row['default'],
+                                        marks = marks_dict))
 
         master_list.append(html.Details(children = group_list))
 
