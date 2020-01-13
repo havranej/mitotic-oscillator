@@ -1,14 +1,19 @@
 id,label,min,max,step,default,group
-v_i,v<sub>i</sub>,0,0.1,0.005,0.025,C
-v_d,v<sub>d</sub>,0,1,0.05,0.25,C
-K_d,K<sub>d</sub>,0,1,0.01,0.02,C
-k_d,k<sub>d</sub>,0,1,0.01,0.01,C
-K_c,K<sub>c</sub>,0,1,0.1,0.5,M
-V_M1,V<sub>M1</sub>,0,10,0.1,3,M
-K_1,K<sub>1</sub>,0,0.1,0.001,0.005,M
-V_2,V<sub>2</sub>,0,10,0.1,1.5,M
-K_2,K<sub>2</sub>,0,0.1,0.001,0.005,M
-V_M3,V<sub>M3</sub>,0,10,0.1,1,X
-K_3,K<sub>3</sub>,0,0.1,0.001,0.005,X
-V_4,V<sub>4</sub>,0,10,0.1,0.5,X
-K_4,K<sub>4</sub>,0,0.1,0.001,0.005,X
+C_init,Cyclin,0,1,0.01,0.01,Initial conditions
+M_init,CDC2 kinase,0,1,0.01,0.01,Initial conditions
+X_init,Cyclin protease,0,1,0.01,0.01,Initial conditions
+v_i,v<sub>i</sub>,0,0.1,0.005,0.025,Cyclin
+v_d,v<sub>d</sub>,0,1,0.01,0.25,Cyclin
+K_d,K<sub>d</sub>,0,1,0.01,0.02,Cyclin
+k_d,k<sub>d</sub>,0,1,0.01,0.01,Cyclin
+K_c,K<sub>c</sub>,0,1,0.1,0.5,CDC2 kinase
+V_M1,V<sub>M1</sub>,0,10,0.1,3,CDC2 kinase
+K_1,K<sub>1</sub>,0,0.1,0.001,0.005,CDC2 kinase
+V_2,V<sub>2</sub>,0,10,0.1,1.5,CDC2 kinase
+K_2,K<sub>2</sub>,0,0.1,0.001,0.005,CDC2 kinase
+V_M3,V<sub>M3</sub>,0,10,0.1,1,Cyclin protease
+K_3,K<sub>3</sub>,0,0.1,0.001,0.005,Cyclin protease
+V_4,V<sub>4</sub>,0,10,0.1,0.5,Cyclin protease
+K_4,K<sub>4</sub>,0,0.1,0.001,0.005,Cyclin protease
+h,Step (10<sup>x</sup>),-3,-1,1,-2,Technical parameters
+log_f,Logging frequency (10<sup>x</sup>),0,2,1,2,Technical parameters
