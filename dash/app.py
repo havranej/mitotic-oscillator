@@ -2,6 +2,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
 
@@ -13,7 +14,7 @@ from methods import rk4
 
 parameters_table = pd.read_csv('parameters.csv')
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css', dbc.themes.GRID]
 
 app = dash.Dash(__name__, external_stylesheets = external_stylesheets)
 
@@ -43,14 +44,16 @@ def generate_control_elements(parameters_table):
 
 app.layout = html.Div(children = [
     html.H1(children = 'Mitotic oscilator'),
-    html.Div(children = 'A mitotic oscilator demo'),
-    html.Div(children = generate_control_elements(parameters_table), style = {}),
-    dcc.Graph(id = 'time-graph', animate = True),
-    dcc.Interval(
-        id='graph-update',
-        interval=0.6*1000,
-        n_intervals = 0
-    ),
+    dbc.Container([
+        dbc.Row([
+            dbc.Col([
+                html.Div(children = generate_control_elements(parameters_table), style = {})
+            ], width = 4),
+            dbc.Col([
+                dcc.Graph(id = 'time-graph', animate = True)
+            ], width = 8)
+        ])
+    ], fluid = True)
 ])
 
 input_list = [Input(component_id = parameter, component_property = 'value') for parameter in parameters_table['id']]
