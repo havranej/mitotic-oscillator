@@ -85,6 +85,11 @@ def update_plot(*param_values):
                 {'x': t, 'y': sim.get_history('M'), 'name': 'CDC2 kinase'},
                 {'x': t, 'y': sim.get_history('X'), 'name': 'Cyclin protease'},
             ],
+            'layout': {
+                'xaxis': {'title': 'Time (min)'},
+                'yaxis': {'title': 'Cyclin concentration (μM) || Fraction of active kinase/protease',
+                          'range': [0,1]}
+                }
             # 'layout': go.Layout(yaxis=dict(range = [0,1]))
             
         }
