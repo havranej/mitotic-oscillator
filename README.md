@@ -4,7 +4,7 @@ An implementation of a simple mitotic oscillator model proposed by [Goldbeter in
 
 The app utilizes Runge-Kutta (RK4) method to solve the system of differential equations describing the model. The user may change the initial conditions as well as the parameters of the reactions and observe the effect on the cell cycle.
 
-This app was made for a Differential Equations class at Jagiellonian University, Kraków, Poland, in 2019/2020.
+This app was made for Differential Equations class at Jagiellonian University, Kraków, Poland, in 2019/2020.
 
 ## How to run
 
